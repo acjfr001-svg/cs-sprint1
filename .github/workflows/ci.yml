@@ -14,7 +14,8 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run Python tests
         run: pytest -q
-      - name: Build C++ hello
+      - name: Build & run C++ tests (ctest)
         run: |
-          g++ -std=c++17 week01/hello_cpp/main.cpp -o hello
-          ./hello
+          cmake -S . -B build
+          cmake --build build -j
+          ctest --test-dir build -q
